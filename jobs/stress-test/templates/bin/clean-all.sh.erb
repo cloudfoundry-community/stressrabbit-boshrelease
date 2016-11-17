@@ -1,0 +1,9 @@
+#!/bin/bash
+SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin/
+export INSTANCES="<%= p('stressrabbit.instances') %>"
+
+for i in `seq 1 $INSTANCES`;
+do
+                $SCRIPTS_DIR/clean-php $i
+                $SCRIPTS_DIR/clean-perf $i
+done

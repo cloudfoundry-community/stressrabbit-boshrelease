@@ -21,3 +21,4 @@ $CF target -o $CF_ORG -s $CF_SPACE
 
 $CF unbind-service rabbitmq-perf-<%= spec.name %>-$1 rabbitmq-perf-<%= spec.name %>-$1
 $CF delete rabbitmq-perf-<%= spec.name %>-$1 -f
+$CF delete-service rabbitmq-perf-<%= spec.name %>-$1 -f

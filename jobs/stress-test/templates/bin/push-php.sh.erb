@@ -5,6 +5,7 @@ MANIFEST=/var/vcap/jobs/stress-test/config/php-manifest.yml
 CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
 PHP_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-php-app/
 PERF_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-performance-app/
+JQ=/var/vcap/jobs/stress-test/packages/jq/bin/jq
 export CF_DOMAIN="<%= p('cf.domain') %>"
 export CF_API="<%= p('cf.api_url') %>"
 export CF_USER="<%= p('cf.user') %>"
@@ -22,7 +23,10 @@ cd $PHP_DIR
 $CF create-service $CF_SERVICE $CF_SERVICE_PLAN rabbitmq-php-<%= spec.name %>-$1
 $CF push rabbitmq-php-<%= spec.name %>-$1 -m 1G -f $MANIFEST
 $CF bind-service rabbitmq-php-<%= spec.name %>-$1 rabbitmq-php-<%= spec.name %>-$1
-URL=https://rabbitmq-php-app-<%= spec.name %>-$1.run.asv-sb.ice.predix.io
+$CF restage rabbitmq-php-<%= spec.name %>-$1
 
-curl -s "$URL?[1-1000]" > /dev/null & pidlist="$pidlist $!"
-curl -s "$URL?[1-1000]" > /dev/null & pidlist="$pidlist $!"
+URL=https://rabbitmq-php-<%= spec.name %>-$1.$CF_DOMAIN
+
+echo $URL
+curl -s "$URL?[1-10000]" > /dev/null & pidlist="$pidlist $!"
+curl -s "$URL?[1-10000]" > /dev/null & pidlist="$pidlist $!"

@@ -28,13 +28,3 @@ do
                 $SCRIPTS_DIR/push-php $i
                 $SCRIPTS_DIR/push-perf $i
 done
-
-for i in `seq 1 $INSTANCES`;
-do
-                $SCRIPTS_DIR/clean-php $i
-                $SCRIPTS_DIR/clean-perf $i
-done
-
-
-echo "test---------"
-cd $PERF_DIR

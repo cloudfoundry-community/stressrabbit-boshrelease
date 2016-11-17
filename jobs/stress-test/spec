@@ -4,13 +4,16 @@ packages:
 - rabbitmq-php-app
 - cf-cli
 - rabbitmq-performance-app
+- jq
 templates:
+  bin/clean-all.sh.erb: bin/clean-all
   bin/clean-php.sh.erb: bin/clean-php
   bin/push-php.sh.erb: bin/push-php
   bin/clean-perf.sh.erb: bin/clean-perf
   bin/push-perf.sh.erb: bin/push-perf
   bin/run.sh.erb: bin/run
   config/php-manifest.yml: config/php-manifest.yml
+  config/perf-manifest.yml: config/perf-manifest.yml
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 properties:

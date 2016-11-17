@@ -1,0 +1,6 @@
+---
+applications:
+- name: rabbitmq-perf-app
+  instances: 1
+  buildpack: java-buildpack
+  path: target/performance-1.0-SNAPSHOT.jar

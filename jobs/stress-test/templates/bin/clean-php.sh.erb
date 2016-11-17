@@ -21,3 +21,4 @@ $CF target -o $CF_ORG -s $CF_SPACE
 cd $PHP_DIR
 $CF unbind-service rabbitmq-php-<%= spec.name %>-$1 rabbitmq-php-<%= spec.name %>-$1
 $CF delete rabbitmq-php-<%= spec.name %>-$1 -f
+$CF delete-service rabbitmq-php-<%= spec.name %>-$1 -f

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin/
-MANIFEST=/var/vcap/jobs/stress-test/config/php-manifest.yml
+MANIFEST=/var/vcap/jobs/stress-test/config/perf-manifest.yml
 CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
 PHP_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-php-app/
 PERF_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-performance-app/
@@ -19,11 +19,13 @@ cd $PERF_DIR
 $CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD
 $CF target -o $CF_ORG -s $CF_SPACE
 
-ls
-$CF create-service $CF_SERVICE $CF_SERVICE_PLAN rabbitmq-perf-<%= spec.name %>-$1
-$CF push rabbitmq-perf-<%= spec.name %>-$1 -m 2G
-$CF bind-service rabbitmq-perf-<%= spec.name %>-$1 rabbitmq-perf-<%= spec.name %>-$1
-URL=https://rabbitmq-perf-app-<%= spec.name %>-$1.run.asv-sb.ice.predix.io
 
-curl -s "$URL?[1-1000]" > /dev/null & pidlist="$pidlist $!"
-curl -s "$URL?[1-1000]" > /dev/null & pidlist="$pidlist $!"
+$CF create-service $CF_SERVICE $CF_SERVICE_PLAN rabbitmq-perf-<%= spec.name %>-$1
+$CF push rabbitmq-perf-<%= spec.name %>-$1 -m 2G -f $MANIFEST
+$CF bind-service rabbitmq-perf-<%= spec.name %>-$1 rabbitmq-perf-<%= spec.name %>-$1
+$CF restage rabbitmq-perf-<%= spec.name %>-$1
+
+URL=https://rabbitmq-perf-<%= spec.name %>-$1.$CF_DOMAIN
+
+curl -s -H "Content-Type: application/json" -X POST -d '{"name":"no-ack","type":"simple","params":[{"time-limit":40,"producer-count": 30,"consumer-count": 30}]}' "$URL?[1-10000]" > /dev/null & pidlist="$pidlist $!"
+curl -s -H "Content-Type: application/json" -X POST -d '{"name":"no-ack","type":"simple","params":[{"time-limit":40,"producer-count": 30,"consumer-count": 30}]}' "$URL?[1-10000]" > /dev/null & pidlist="$pidlist $!"
