@@ -1,0 +1,35 @@
+---
+name: stress-test
+packages:
+- rabbitmq-php-app
+- cf-cli
+- rabbitmq-performance-app
+templates:
+  bin/clean-php.sh.erb: bin/clean-php
+  bin/push-php.sh.erb: bin/push-php
+  bin/clean-perf.sh.erb: bin/clean-perf
+  bin/push-perf.sh.erb: bin/push-perf
+  bin/run.sh.erb: bin/run
+  config/php-manifest.yml: config/php-manifest.yml
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+properties:
+  stressrabbit.instances:
+    description: 'Number of instances of each app'
+    default: 1
+  cf.domain:
+    description: 'Apps Domain for Cloud Foundry'
+  cf.api_url:
+    description: 'Full URL of Cloud Foundry API'
+  cf.user:
+    description: 'Cloud Foundry User'
+  cf.password:
+    description: 'Cloud Foundry Password for user'
+  cf.org:
+    description: 'Cloud Foundry Org'
+  cf.space:
+    description: 'Cloud Foundry Space'
+  cf.service_name:
+    description: 'Cloud Foundry RabbitMQ Service Name'
+  cf.service_plan:
+    description: 'Cloud Foundry RabbitMQ Service Plan'

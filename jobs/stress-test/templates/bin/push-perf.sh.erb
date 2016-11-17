@@ -1,0 +1,29 @@
+#!/bin/bash
+
+SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin/
+MANIFEST=/var/vcap/jobs/stress-test/config/php-manifest.yml
+CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
+PHP_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-php-app/
+PERF_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-performance-app/
+export CF_DOMAIN="<%= p('cf.domain') %>"
+export CF_API="<%= p('cf.api_url') %>"
+export CF_USER="<%= p('cf.user') %>"
+export CF_PASSWORD="<%= p('cf.password') %>"
+export CF_ORG="<%= p('cf.org') %>"
+export CF_SPACE="<%= p('cf.space') %>"
+export CF_SERVICE="<%= p('cf.service_name') %>"
+export CF_SERVICE_PLAN="<%= p('cf.service_plan') %>"
+
+cd $PERF_DIR
+#Logging into CF
+$CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD
+$CF target -o $CF_ORG -s $CF_SPACE
+
+ls
+$CF create-service $CF_SERVICE $CF_SERVICE_PLAN rabbitmq-perf-<%= spec.name %>-$1
+$CF push rabbitmq-perf-<%= spec.name %>-$1 -m 2G
+$CF bind-service rabbitmq-perf-<%= spec.name %>-$1 rabbitmq-perf-<%= spec.name %>-$1
+URL=https://rabbitmq-perf-app-<%= spec.name %>-$1.run.asv-sb.ice.predix.io
+
+curl -s "$URL?[1-1000]" > /dev/null & pidlist="$pidlist $!"
+curl -s "$URL?[1-1000]" > /dev/null & pidlist="$pidlist $!"

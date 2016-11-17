@@ -1,0 +1,5 @@
+---
+name: rabbitmq-php-app
+dependencies: []
+files:
+- rabbitmq-php-app/rabbitmq-php-app.tar.gz

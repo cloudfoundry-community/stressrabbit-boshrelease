@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin/
+CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
+PHP_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-php-app/
+PERF_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-performance-app/
+export CF_API="<%= p('cf.api_url') %>"
+export CF_USER="<%= p('cf.user') %>"
+export CF_PASSWORD="<%= p('cf.password') %>"
+export CF_ORG="<%= p('cf.org') %>"
+export CF_SPACE="<%= p('cf.space') %>"
+export CF_SERVICE="<%= p('cf.service_name') %>"
+export CF_SERVICE_PLAN="<%= p('cf.service_plan') %>"
+
+#Logging into CF
+echo $CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD
+$CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD
+echo $CF target -o $CF_ORG -s $CF_SPACE
+$CF target -o $CF_ORG -s $CF_SPACE
+
+cd $PHP_DIR
+$CF unbind-service rabbitmq-php-<%= spec.name %>-$1 rabbitmq-php-<%= spec.name %>-$1
+$CF delete rabbitmq-php-<%= spec.name %>-$1 -f

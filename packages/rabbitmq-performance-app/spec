@@ -1,0 +1,5 @@
+---
+name: rabbitmq-performance-app
+dependencies: []
+files:
+- rabbitmq-performance-app/rabbitmq-performance-app.tar.gz

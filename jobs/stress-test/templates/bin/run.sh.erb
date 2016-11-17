@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the errand script
+source /var/vcap/jobs/stress-test/helpers/ctl_setup.sh 'stress-test'
+SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin/
+CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
+PHP_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-php-app/
+PERF_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-performance-app/
+export CF_API="<%= p('cf.api_url') %>"
+export CF_USER="<%= p('cf.user') %>"
+export CF_PASSWORD="<%= p('cf.password') %>"
+export CF_ORG="<%= p('cf.org') %>"
+export CF_SPACE="<%= p('cf.space') %>"
+export CF_SERVICE="<%= p('cf.service_name') %>"
+export CF_SERVICE_PLAN="<%= p('cf.service_plan') %>"
+export INSTANCES="<%= p('stressrabbit.instances') %>"
+############################################################################
+#Logging into CF
+echo $CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD
+$CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD
+echo $CF target -o $CF_ORG -s $CF_SPACE
+$CF target -o $CF_ORG -s $CF_SPACE
+
+for i in `seq 1 $INSTANCES`;
+do
+                $SCRIPTS_DIR/push-php $i
+                $SCRIPTS_DIR/push-perf $i
+done
+
+for i in `seq 1 $INSTANCES`;
+do
+                $SCRIPTS_DIR/clean-php $i
+                $SCRIPTS_DIR/clean-perf $i
+done
+
+
+echo "test---------"
+cd $PERF_DIR
