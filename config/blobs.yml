@@ -1,1 +1,13 @@
---- {}
+---
+cf-cli/cf-cli_6.22.2_linux_x86-64.tgz:
+  object_id: 05186be6-9336-48e7-bfdd-b7c588f4226f
+  sha: 72f398b59bc041826a7658e318794a84bd428729
+  size: 6497363
+jq/jq.tar.gz:
+  object_id: e44127c3-3c99-4c4f-ac70-3747e3167570
+  sha: 889e19848829e9628b5eec2d411d1264114e50cb
+  size: 1369125
+rabbitmq-performance-app/rabbitmq-performance-app.tar.gz:
+  object_id: ae48be0c-4a30-4778-822e-10fc170fec41
+  sha: cc40eba0b9de7e746228b9fd577f3e0602a8054d
+  size: 14972642
