@@ -1,0 +1,39 @@
+---
+packages:
+- name: cf-cli
+  version: 9b3c94faaf62c184e0cf8b2629f8385191f66be9
+  fingerprint: 9b3c94faaf62c184e0cf8b2629f8385191f66be9
+  sha1: dc560ee9ca3c924fdb1b83c147a913335d2e712f
+  dependencies: []
+- name: jq
+  version: 0e8b51e302adbd4ec49c3da0b18ae37d817c19b4
+  fingerprint: 0e8b51e302adbd4ec49c3da0b18ae37d817c19b4
+  sha1: 11ff29156525a3e81654832f98319c99c89cbbc8
+  dependencies: []
+- name: rabbitmq-performance-app
+  version: a8f84f54e108bdc4f855bfb1100f3eb578e45363
+  fingerprint: a8f84f54e108bdc4f855bfb1100f3eb578e45363
+  sha1: 6869cb9502704cc2aa273dcc28bf168165184142
+  dependencies: []
+- name: rabbitmq-php-app
+  version: b9bcf8bc02efb6789f1e99970cadb6cd89cb301a
+  fingerprint: b9bcf8bc02efb6789f1e99970cadb6cd89cb301a
+  sha1: 099a68a2fb54780af189993fee028504a13ac40b
+  dependencies: []
+jobs:
+- name: just_install_packages
+  version: dbbec7903e56eada46d341e6b8f8909969582cce
+  fingerprint: dbbec7903e56eada46d341e6b8f8909969582cce
+  sha1: da6c47bc5cbc0063168be92a1e63d88f8e307917
+- name: stress-test
+  version: 641acece9df711c487a983f6cef897d5a98df740
+  fingerprint: 641acece9df711c487a983f6cef897d5a98df740
+  sha1: 18741179480eb78383e3bf678a2fba64a93aaeb1
+license:
+  version: 920e1213ed9eb0dca8164e09689d6d352c0244f9
+  fingerprint: 920e1213ed9eb0dca8164e09689d6d352c0244f9
+  sha1: 8412821f2e68da01af6c9d3d510b0d48f4e8b5b3
+commit_hash: 51269f71
+uncommitted_changes: true
+name: stressrabbit
+version: '1'
