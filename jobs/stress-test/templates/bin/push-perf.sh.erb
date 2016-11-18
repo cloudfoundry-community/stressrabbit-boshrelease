@@ -21,7 +21,7 @@ $CF target -o $CF_ORG -s $CF_SPACE
 
 
 $CF create-service $CF_SERVICE $CF_SERVICE_PLAN rabbitmq-perf-<%= spec.name %>-$1
-$CF push rabbitmq-perf-<%= spec.name %>-$1 -m 2G -f $MANIFEST
+$CF push rabbitmq-perf-<%= spec.name %>-$1 -m 2G
 $CF bind-service rabbitmq-perf-<%= spec.name %>-$1 rabbitmq-perf-<%= spec.name %>-$1
 $CF restage rabbitmq-perf-<%= spec.name %>-$1
 

@@ -15,11 +15,11 @@ export CF_SPACE="<%= p('cf.space') %>"
 export CF_SERVICE="<%= p('cf.service_name') %>"
 export CF_SERVICE_PLAN="<%= p('cf.service_plan') %>"
 
+cd $PHP_DIR
 #Logging into CF
 $CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD
 $CF target -o $CF_ORG -s $CF_SPACE
 
-cd $PHP_DIR
 $CF create-service $CF_SERVICE $CF_SERVICE_PLAN rabbitmq-php-<%= spec.name %>-$1
 $CF push rabbitmq-php-<%= spec.name %>-$1 -m 1G -f $MANIFEST
 $CF bind-service rabbitmq-php-<%= spec.name %>-$1 rabbitmq-php-<%= spec.name %>-$1

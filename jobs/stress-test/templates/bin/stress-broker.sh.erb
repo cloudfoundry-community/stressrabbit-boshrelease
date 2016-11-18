@@ -1,0 +1,19 @@
+#!/bin/bash
+
+CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
+export CF_API="<%= p('cf.api_url') %>"
+export CF_USER="<%= p('cf.user') %>"
+export CF_PASSWORD="<%= p('cf.password') %>"
+export CF_ORG="<%= p('cf.org') %>"
+export CF_SPACE="<%= p('cf.space') %>"
+
+
+for i in `seq 1 10000`;
+do
+    $CF login -a $CF_API -u $CF_USER -p $CF_PASSWORD > /dev/null
+    $CF target -o $CF_ORG -s $CF_SPACE > /dev/null
+    $CF cs rabbitmq-36 standard load$2 > /dev/null
+    $CF bs $1 load$2 > /dev/null
+    $CF us $1 load$2 > /dev/null
+    $CF ds load$2 -f > /dev/null
+done

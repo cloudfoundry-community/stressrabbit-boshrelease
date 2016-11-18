@@ -1,0 +1,17 @@
+#!/bin/bash
+
+SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin
+CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
+export CF_DOMAIN="<%= p('cf.domain') %>"
+export INSTANCES="<%= p('stressrabbit.instances') %>"
+
+for i in `seq 1 $INSTANCES`;
+do
+                URL=https://rabbitmq-php-<%= spec.name %>-$i.$CF_DOMAIN
+                curl -s "$URL?[1-10000]" > /dev/null &
+                curl -s "$URL?[1-10000]" > /dev/null &
+                URL2=https://rabbitmq-perf-<%= spec.name %>-$i.$CF_DOMAIN
+                curl -s -H "Content-Type: application/json" -X POST -d '{"name":"no-ack","type":"simple","params":[{"time-limit":40,"producer-count": 30,"consumer-count": 30}]}' "$URL?[1-10000]" > /dev/null &
+                curl -s -H "Content-Type: application/json" -X POST -d '{"name":"no-ack","type":"simple","params":[{"time-limit":40,"producer-count": 30,"consumer-count": 30}]}' "$URL?[1-10000]" > /dev/null &
+                $SCRIPTS_DIR/stress-broker rabbitmq-php-app $i > /dev/null &
+done

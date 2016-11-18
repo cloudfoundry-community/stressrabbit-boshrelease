@@ -4,7 +4,7 @@ set -u # report the usage of uninitialized variables
 
 # Setup env vars and folders for the errand script
 source /var/vcap/jobs/stress-test/helpers/ctl_setup.sh 'stress-test'
-SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin/
+SCRIPTS_DIR=/var/vcap/jobs/stress-test/bin
 CF=/var/vcap/jobs/stress-test/packages/cf-cli/bin/cf
 PHP_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-php-app/
 PERF_DIR=/var/vcap/jobs/stress-test/packages/rabbitmq-performance-app/
@@ -28,3 +28,5 @@ do
                 $SCRIPTS_DIR/push-php $i
                 $SCRIPTS_DIR/push-perf $i
 done
+
+$CF apps

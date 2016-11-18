@@ -6,6 +6,8 @@ packages:
 - rabbitmq-performance-app
 - jq
 templates:
+  bin/stress-rabbit.sh.erb: bin/stress-rabbit
+  bin/stress-broker.sh.erb: bin/stress-broker
   bin/clean-all.sh.erb: bin/clean-all
   bin/clean-php.sh.erb: bin/clean-php
   bin/push-php.sh.erb: bin/push-php
